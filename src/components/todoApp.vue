@@ -21,12 +21,12 @@
               <td>{{task.status}}</td>
               <td>
                 <div>
-                <span class="fa fa-pen"></span>
+                <span class="fa fa-pen" @click="editTask(index)"></span>
               </div>
             </td>
               <td> 
                  <div>
-                  <span class="fa fa-trash"></span>
+                  <span class="fa fa-trash" @click="deleteTask(index)"></span>
                 </div>
             </td>
             </tr>
@@ -50,6 +50,7 @@ export default {
   data(){
     return{
       task:'',
+      editedtask:null,
       tasks : [
         {
           name : 'Study English',
@@ -77,11 +78,32 @@ export default {
   methods:{
     submitTask(){
       if (this.task==0) return;
-      this.tasks.push({
+      if (this.editedtask==null){
+        this.tasks.push({
         name: this.task ,
         status: 'todo'
       })
+      }
+      else{
+        this.tasks[this.editedtask].name = this.task
+        this.editedtask = null
+      }
+   
+      this.task = ''
     },
+
+  deleteTask(index){
+    this.tasks.splice(index,1)
+
+  },
+
+  editTask(index){
+    this.task=this.tasks[index].name;
+    this.editedtask = index
+
+  },
+
+
   },
 }
 </script>
